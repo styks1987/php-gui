@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls, Pipes,
-  fpjson, jsonparser, unit1, typinfo, ExtCtrls, Variants, ComCtrls;
+  fpjson, jsonparser, unit1, typinfo, ExtCtrls, Variants, ComCtrls, EditBtn;
 
 type
 
@@ -157,6 +157,7 @@ begin
   RegisterClass(TComboBox);
   RegisterClass(TMemo);
   RegisterClass(TProgressBar);
+  RegisterClass(TDirectoryEdit);
 
   // Initializes the input pipe (Stdin)
   StdinStream := TInputPipeStream.Create(StdInputHandle);
@@ -535,7 +536,8 @@ begin
 
         if VarIsStr(propertyValue) then
         begin
-          return := '"' + VarToStr(propertyValue) + '"';
+          {return := '"' + VarToStr(propertyValue) + '"';}
+          return := '"' + StringReplace(VarToStr(propertyValue), '\', '\\', [rfReplaceAll]) + '"';
         end
         else
         begin
